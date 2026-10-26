@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Renomeador OCR de PDFs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <h1>📄 Renomeador OCR de PDFs</h1>
+    <p>Envie um ou vários PDFs. O sistema identifica o tipo do documento e o número de registro
+       pela primeira página, remove páginas em branco e devolve tudo renomeado num ZIP.</p>
+
+    {% with msgs = get_flashed_messages() %}
+      {% if msgs %}
+        <ul class="flash">
+          {% for m in msgs %}<li>{{ m }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('processar') }}" method="post" enctype="multipart/form-data">
+      <label class="drop">
+        <input type="file" name="pdfs" accept=".pdf" multiple required>
+        <span>Clique ou arraste PDFs aqui</span>
+      </label>
+      <button type="submit">Processar e baixar ZIP</button>
+    </form>
+
+    <p class="hint">Os arquivos são processados no servidor e removidos após o download.</p>
+  </main>
+</body>
+</html>
